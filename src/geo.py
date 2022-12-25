@@ -8,4 +8,5 @@ class GeoPos:
         self.longitude = self.geolocator.geocode(city, language='ru').longitude
 
     def get_location(self):
+        print(self.latitude, '\n', self.longitude)
         return self.latitude, self.longitude
