@@ -1,21 +1,22 @@
-from yaweather import *
+from yaweather import YaWeather
 import telebot
 from src.secrets_provider import SecretsProvider
 from src.bot import BotManager
-from src.weather import WeatherManager
-
-provider = SecretsProvider()
-# ---------------------
-weather = YaWeather(api_key=provider.get_weather_token())
-weather_manager = WeatherManager(weather)
-# ---------------------
-bot = telebot.TeleBot(provider.get_bot_token())
-bot_manager = BotManager(bot)
 
 
-@bot.message_handler(content_types=['text'])
-def main(message):
-    bot_manager.message_handler(message, weather_manager)
+def main():
+    provider = SecretsProvider()
+    # ---------------------
+    weather_api = YaWeather(api_key=provider.get_weather_token())
+    bot_api = telebot.TeleBot(provider.get_bot_token())
+    bot_manager = BotManager(bot_api, weather_api)
+
+    @bot_api.message_handler(content_types=['text'])
+    def bot_activity(message):
+        bot_manager.message_processor(message)
+
+    bot_api.polling(none_stop=True, interval=0)
 
 
-bot.polling(none_stop=True, interval=0)
+if __name__ == '__main__':
+    main()
