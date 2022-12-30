@@ -18,8 +18,16 @@ class BotManager:
             try:
                 temp = self.weather_manager.get_temp_now(message.text)
                 self.send_temp(message, temp)
+                self.send_coord(message)
             except AttributeError:
                 self.reply_to_message(message)
+
+    def send_coord(self, city):
+        x, y = self.weather_manager.took_coord(city.text)
+        print(x, y)
+        return self.bot.send_message(city.from_user.id, f'Да, есть и такая область на карте {city.text}.\n'
+                                                        f'Вот его расположение на карте:\n'
+                                                        f'https://yandex.ru/maps/?ll={y},{x}&z=12')
 
     def send_temp(self, city, temp):
         return self.bot.send_message(city.from_user.id, f'Сейчас в населённом пункте {city.text}: {temp}°C')
