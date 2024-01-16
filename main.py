@@ -4,7 +4,8 @@ from src.secrets_provider import SecretsProvider
 from src.bot import BotManager
 
 
-def main():
+def main() -> None:
+    """Main function. Create instances of all managers and tart bots polling."""
     provider = SecretsProvider()
     # ---------------------
     weather_api = YaWeather(api_key=provider.get_weather_token())
@@ -13,6 +14,7 @@ def main():
 
     @bot_api.message_handler(content_types=['text'])
     def bot_activity(message):
+        """Handle incoming telegram messages."""
         bot_manager.message_processor(message)
 
     bot_api.polling(none_stop=True, interval=0)
