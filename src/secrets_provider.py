@@ -29,4 +29,3 @@ class SecretsProvider(object):
         """Load secrets from the .env file."""
         self.secrets['weather_key'] = getenv('YA_WEATHER_KEY')
         self.secrets['bot_key'] = getenv('TELEGRAM_TOKEN')
-        print(self.secrets['weather_key'])

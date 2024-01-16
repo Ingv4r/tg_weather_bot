@@ -212,3 +212,6 @@ dmypy.json
 cython_debug/
 
 apikeys.txt
+
+#Pycharm static
+.idea/
